@@ -1,0 +1,8 @@
+Home Component
+
+<input type="text" [(ngModel)]="newDept" />
+<button (click)="addDepartment()">Add</button>
+
+<div *ngFor="let dept of departments">
+  {{ dept.dept_name }}: {{ dept.dept_name }}
+</div>
