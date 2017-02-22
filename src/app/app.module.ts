@@ -8,6 +8,7 @@ import { HttpModule } from '@angular/http';
 import { Routes, RouterModule } from '@angular/router';
 import { ApolloClient, createBatchingNetworkInterface } from 'apollo-client';
 import { ApolloModule } from 'apollo-angular';
+import { MaterialModule } from '@angular/material';
 
 import { AppComponent } from './app.component';
 
@@ -48,6 +49,7 @@ const appRoutes: Routes = [
     HttpModule,
     ApolloModule.forRoot(provideClient),
     RouterModule.forRoot(appRoutes),
+    MaterialModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]

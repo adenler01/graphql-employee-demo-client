@@ -34,7 +34,6 @@ export class Page2Component implements OnInit {
 
     this.query.subscribe(resp => {
       let data: Array<Department> = [].concat((<any>resp.data).departments);
-      console.log(data);
 
       data = data.sort((a, b) => {
         if (a.dept_name < b.dept_name) {

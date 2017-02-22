@@ -1,11 +1,17 @@
-Home Component<br>
-<br>
-Dept #: <input type="text" [(ngModel)]="dept_no" /><br>
-Dept Name: <input type="text" [(ngModel)]="dept_name" /><br>
-<br>
-<button (click)="addDepartment()">Add</button><br>
-<br>
+<md-input-container>
+  <input mdInput placeholder="Department Number" type="text" [(ngModel)]="dept_no">
+</md-input-container>
+<md-input-container>
+  <input mdInput placeholder="Department Name" type="text" [(ngModel)]="dept_name">
+</md-input-container>
+<button md-raised-button (click)="addDepartment()">Add</button><br>
 
-<div *ngFor="let dept of departments">
-  {{ dept.dept_name }}: {{ dept.dept_name }}
-</div>
+<md-nav-list>
+  <md-list-item *ngFor="let dept of departments">
+    <a (click)="editDepartment(dept)">{{ dept.dept_no }}: {{ dept.dept_name }}</a>
+    <span class="example-spacer"></span>
+    <button md-icon-button (click)="deleteDepartment(dept)" align="end">
+        <md-icon>delete_forever</md-icon>
+     </button>
+  </md-list-item>
+</md-nav-list>

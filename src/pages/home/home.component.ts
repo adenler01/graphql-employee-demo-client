@@ -23,13 +23,19 @@ const departmentAddQry = gql`
   }
 `;
 
+const departmentDelQry = gql`
+  mutation ($dept_no: String!) {
+    deleteDepartment (dept_no: $dept_no)
+  }
+`;
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  departmentSubscription: ApolloQueryObservable<any>;
+  query: ApolloQueryObservable<any>;
 
   departments: Array<any>;
   dept_no = '';
@@ -40,14 +46,53 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.departmentSubscription = this.apollo.watchQuery({
+    this.query = this.apollo.watchQuery<Array<Department>>({
       query: departmentsQry
     });
 
-    this.departmentSubscription.subscribe(({data}) => {
-      console.log('department data loaded');
-      this.departments = (<any>data).departments;
+    this.query.subscribe(resp => {
+      let data: Array<Department> = [].concat((<any>resp.data).departments);
+
+      data = data.sort((a, b) => {
+        if (a.dept_name < b.dept_name) {
+          return -1;
+        } else if (a.dept_name > b.dept_name) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+
+      this.departments = data;
     });
+  }
+
+  deleteDepartment(department) {
+    this.apollo.mutate({
+      mutation: departmentDelQry,
+      variables: {
+        dept_no: department.dept_no
+      },
+      updateQueries: {
+        Departments: (prev, {mutationResult}: any) => {
+          const x: Array<Department> = (<any>prev).departments;
+          const idx = x.findIndex(o => o.dept_no === department.dept_no);
+
+          if (idx > -1) {
+            x.splice(idx, 1);
+          }
+
+          return {
+            departments: [...x]
+          };
+        }
+      }
+    }).subscribe(
+      ({ data }) => {
+      }, (err) => {
+        console.log('there was an error sending the query', err);
+      });
+
   }
 
   addDepartment() {
@@ -70,7 +115,6 @@ export class HomeComponent implements OnInit {
         }
       }).subscribe(
         ({ data }) => {
-          console.log('got data', data);
         }, (err) => {
           console.log('there was an error sending the query', err);
         });
@@ -78,4 +122,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  editDepartment(dept) {
+
+  }
 }

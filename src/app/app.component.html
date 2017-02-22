@@ -1,8 +1,17 @@
-<h1>
-  {{title}}
-</h1>
-<a routerLink="/">Home</a>
-<a routerLink="/page2">Page 2</a>
-<hr>
-<router-outlet></router-outlet>
+<md-sidenav-container>
+  <md-sidenav>
+    <a routerLink="/">Home</a>
+    <a routerLink="/page2">Page 2</a>
+  </md-sidenav>
 
+  <md-toolbar>
+    <md-toolbar-row>
+      <span>GraphQL Demo</span>
+      <span class="example-spacer"></span>
+      <button md-flat-button (click)="home()">Home</button>
+      <button md-flat-button (click)="page2()">Page 2</button>
+    </md-toolbar-row>
+  </md-toolbar>
+
+  <router-outlet></router-outlet>
+</md-sidenav-container>

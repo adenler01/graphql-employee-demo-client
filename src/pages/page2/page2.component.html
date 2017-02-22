@@ -1,7 +1,12 @@
-Page 2 Component
+<md-nav-list>
+  <md-list-item *ngFor="let dept of departments">
+    <a (click)="editDepartment(dept)">{{ dept.dept_no }}: {{ dept.dept_name }}</a>
+    <span class="example-spacer"></span>
+    <button md-icon-button (click)="deleteDepartment(dept)" align="end">
+        <md-icon>delete_forever</md-icon>
+     </button>
+  </md-list-item>
+</md-nav-list>
 
-<div *ngFor="let dept of departments">
-  {{ dept.dept_name }}: {{ dept.dept_name }}
-</div>
 
-<button (click)="requery()">Refresh</button>
+<button md-raised-button (click)="requery()">Refresh</button>
